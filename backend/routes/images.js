@@ -53,6 +53,24 @@ router.post("/", uploadMiddleware, async (req, res) => {
     }
 });
 
+router.patch("/:id", async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+    const image = await Image.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+    image.name = name.trim();
+    await image.save();
+    res.json(image);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
     try {
         const image = await Image.findOne({ _id: req.params.id, owner: req.user.id });

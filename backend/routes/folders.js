@@ -68,6 +68,24 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.patch("/:id", async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+    const folder = await Folder.findOne({ _id: req.params.id, owner: req.user.id });
+    if (!folder) {
+      return res.status(404).json({ message: "Folder not found" });
+    }
+    folder.name = name.trim();
+    await folder.save();
+    res.json(folder);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
     try {
         const ownerObjectId = new mongoose.Types.ObjectId(req.user.id);
