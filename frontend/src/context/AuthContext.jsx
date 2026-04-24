@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         client
-            .get("/auth/me")
+            .get("/api/auth/me")
             .then((res) => setUser(res.data))
             .catch(() => setUser(null))
             .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
 
     const login = async (email, password) => {
         await apiLogin(email, password);
-        const res = await client.get("/auth/me");
+        const res = await client.get("/api/auth/me");
         setUser(res.data);
     };
 

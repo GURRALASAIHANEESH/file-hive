@@ -1,10 +1,10 @@
 import client from "./client";
 
-export const getFolders = () => client.get("/folders");
+export const getFolders = () => client.get("/api/folders");
 
-export const getFolder = (id) => client.get(`/folders/${id}`);
+export const getFolder = (id) => client.get(`/api/folders/${id}`);
 
 export const createFolder = (name, parentId) =>
-    client.post("/folders", { name, parentId });
+    client.post("/api/folders", { name, parentId });
 
-export const deleteFolder = (id) => client.delete(`/folders/${id}`);
+export const deleteFolder = (id) => client.delete(`/api/folders/${id}`);
